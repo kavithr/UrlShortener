@@ -30,7 +30,7 @@ namespace UrlShortner.DAL
             db.UrlDetails.Add(item);
             var result = db.SaveChanges();
 
-            return result;
+            return item.ID;
         }
 
         public int FindUrlByValue(string url)
