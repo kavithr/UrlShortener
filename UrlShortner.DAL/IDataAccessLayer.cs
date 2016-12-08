@@ -8,7 +8,8 @@ namespace UrlShortner.DAL
 {
     public interface IDataAccessLayer
     {
-        string CreateUrl(string url, int id);
-        string GetUrl(string shortUrlHash);
+        int Create(string url);
+        string GetUrl(int id);
+        int FindUrlByValue(string url);
     }
 }
