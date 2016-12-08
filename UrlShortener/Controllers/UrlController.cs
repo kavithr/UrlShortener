@@ -28,7 +28,12 @@ namespace UrlShortener.Controllers
         [System.Web.Http.HttpGet]
         public IHttpActionResult CreateShortUrl(string url)
         {
-            var itemId = _dataAccess.Create(url);
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return BadRequest("URL cannot be empty");
+            }
+
+            var itemId = _dataAccess.Create(url.Trim());
             var hash = _hahGenerator.ConvertIdToHash(itemId);
             var tinyUrl = _tinyUrlPrefix + hash;
             return Ok(tinyUrl);
@@ -38,10 +43,35 @@ namespace UrlShortener.Controllers
         [System.Web.Http.HttpGet]
         public IHttpActionResult GetUrl(string url)
         {
-            var urlHash = url.Replace(_tinyUrlPrefix, "");
-            var id = _hahGenerator.ConvertHashToId(urlHash);
-            var actualUrl = _dataAccess.GetUrl(id) ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return BadRequest("URL cannot be empty");
+            }
+
+            var actualUrl = GetRedirectUrl(url.Trim());
             return Ok(actualUrl);
         }
+
+        [System.Web.Http.AcceptVerbs("GET")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage GoTo(string urlHash)
+        {
+            if (string.IsNullOrWhiteSpace(urlHash))
+            {
+                throw new InvalidOperationException("Bad request");
+            }
+
+            var redirectUrl = GetRedirectUrl(urlHash.Trim());         
+            var response = Request.CreateResponse(HttpStatusCode.Moved);            
+            response.Headers.Location = new Uri(redirectUrl);
+            return response;
+        }
+
+        private string GetRedirectUrl(string urlHash)
+        {           
+            var id = _hahGenerator.ConvertHashToId(urlHash);
+            return _dataAccess.GetUrl(id) ?? string.Empty;
+        }
+
     }
 }
