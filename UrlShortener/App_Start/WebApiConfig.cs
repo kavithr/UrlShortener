@@ -16,10 +16,20 @@ namespace UrlShortener
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
+              name: "DefaultApi",
+              routeTemplate: "api/Url/{urlHash}", defaults: new
+    {
+        controller = "Url",
+        id = RouteParameter.Optional
+    }
+          );
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi1",
                 routeTemplate: "api/{controller}/{action}/{url}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
         }
     }

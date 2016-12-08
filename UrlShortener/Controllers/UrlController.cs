@@ -39,22 +39,22 @@ namespace UrlShortener.Controllers
             return Ok(tinyUrl);
         }
 
+        ////[System.Web.Http.AcceptVerbs("GET")]
+        ////[System.Web.Http.HttpGet]
+        ////public IHttpActionResult GetUrl(string urlHash)
+        ////{
+        ////    if (string.IsNullOrWhiteSpace(urlHash))
+        ////    {
+        ////        return BadRequest("URL cannot be empty");
+        ////    }
+
+        ////    var actualUrl = GetRedirectUrl(urlHash.Trim());
+        ////    return Ok(actualUrl);
+        ////}
+
         [System.Web.Http.AcceptVerbs("GET")]
         [System.Web.Http.HttpGet]
-        public IHttpActionResult GetUrl(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                return BadRequest("URL cannot be empty");
-            }
-
-            var actualUrl = GetRedirectUrl(url.Trim());
-            return Ok(actualUrl);
-        }
-
-        [System.Web.Http.AcceptVerbs("GET")]
-        [System.Web.Http.HttpGet]
-        public HttpResponseMessage GoTo(string urlHash)
+        public HttpResponseMessage Get(string urlHash)
         {
             if (string.IsNullOrWhiteSpace(urlHash))
             {
