@@ -28,18 +28,10 @@ namespace UrlShortener.Controllers
         [System.Web.Http.HttpGet]
         public IHttpActionResult CreateShortUrl(string url)
         {
-            try
-            {
-                var itemId = _dataAccess.Create(url);
-                var hash = _hahGenerator.ConvertIdToHash(itemId);
-                var tinyUrl = _tinyUrlPrefix + hash;
-                return Ok(tinyUrl);
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-
+            var itemId = _dataAccess.Create(url);
+            var hash = _hahGenerator.ConvertIdToHash(itemId);
+            var tinyUrl = _tinyUrlPrefix + hash;
+            return Ok(tinyUrl);
         }
 
         [System.Web.Http.AcceptVerbs("GET")]
