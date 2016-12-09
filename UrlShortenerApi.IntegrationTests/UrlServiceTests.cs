@@ -57,6 +57,22 @@ namespace UrlShortenerApi.EndToEndTests
             }
         }
 
+        [TestMethod]
+        public void Get_WithTinyUrl_RedirectsToLongUrlLocation()
+        {
+            const string ExpectedLocation = "https://msdn.microsoft.com/en-us/library/system.net.http.httpclientextensions.postasjsonasync.aspx";
+
+            using (var client = new HttpClient())
+            {
+                const string LongUrlHash = "p";
+                var tinyUrl = BaseUrl + LongUrlHash;
+                var response = client.GetAsync(tinyUrl).Result;
+                Assert.IsTrue(response.IsSuccessStatusCode);
+                Assert.IsNotNull(response);                
+                Assert.AreEqual(ExpectedLocation, response.RequestMessage.RequestUri.OriginalString);
+            }
+        }
+
 
         [TestMethod]
         public void CreateShortUrl_DuplicateLongUrl_ShouldReturnExistingShortUrl()
