@@ -50,6 +50,11 @@ namespace UrlShortener.Controllers
             return Ok(longUrl);
         }
 
+        /// <summary>
+        /// Redirect to original url
+        /// </summary>
+        /// <param name="urlHash"></param>
+        /// <returns></returns>
         [System.Web.Http.AcceptVerbs("GET")]
         [System.Web.Http.HttpGet]            
         public HttpResponseMessage Get(string urlHash)
@@ -59,9 +64,15 @@ namespace UrlShortener.Controllers
                 throw new InvalidOperationException("Bad request");
             }
 
-            var redirectUrl = GetRedirectUrl(urlHash.Trim());         
+            var longUrl = GetRedirectUrl(urlHash.Trim());
+
+            if (string.IsNullOrWhiteSpace(longUrl))
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+                 
             var response = Request.CreateResponse(HttpStatusCode.Moved);            
-            response.Headers.Location = new Uri(redirectUrl);
+            response.Headers.Location = new Uri(longUrl);
             return response;
         }
 
