@@ -5,7 +5,7 @@ using System.Web;
 
 namespace UrlShortener
 {
-    public class CreateRequest
+    public class CreateTinyUrlRequest
     {
         public string Url { get; set; }
     }

@@ -26,7 +26,7 @@ namespace UrlShortener.UnitTests
                 var controller = autoMock.Create<UrlController>();
 
                 // Act
-                var actual = controller.CreateShortUrl(new CreateRequest { Url = longUrl }) as OkNegotiatedContentResult<string>;
+                var actual = controller.CreateShortUrl(new CreateTinyUrlRequest { Url = longUrl }) as OkNegotiatedContentResult<string>;
 
                 // Assert
                 Assert.IsNotNull(actual);
@@ -44,7 +44,7 @@ namespace UrlShortener.UnitTests
                 var controller = mock.Create<UrlController>();
 
                 // Act
-                var actual = controller.CreateShortUrl(new CreateRequest { Url = null }) as BadRequestErrorMessageResult;
+                var actual = controller.CreateShortUrl(new CreateTinyUrlRequest { Url = null }) as BadRequestErrorMessageResult;
 
                 // Assert
                 Assert.IsNotNull(actual);

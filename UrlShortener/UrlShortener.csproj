@@ -165,7 +165,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\UrlController.cs" />
-    <Compile Include="CreateRequest.cs" />
+    <Compile Include="CreateTinyUrlRequest.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

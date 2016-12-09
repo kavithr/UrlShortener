@@ -22,7 +22,7 @@ namespace UrlShortener.Controllers
         
         [System.Web.Http.AcceptVerbs("POST")]
         [System.Web.Http.HttpPost]
-        public IHttpActionResult CreateShortUrl(CreateRequest request)
+        public IHttpActionResult CreateShortUrl(CreateTinyUrlRequest request)
         {
             if (request == null || string.IsNullOrWhiteSpace(request.Url))
             {
