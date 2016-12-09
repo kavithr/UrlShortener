@@ -83,7 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SQLServerDataAccessLayer.cs" />
+    <Compile Include="UrlDetailsSQLDataAccess.cs" />
     <Compile Include="IDataAccessLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UrlDetail.cs">

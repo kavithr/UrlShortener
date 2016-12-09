@@ -16,7 +16,7 @@ namespace UrlShortener.Controllers
 
         public UrlController()
         {
-            _dataAccess = new SQLServerDataAccessLayer();
+            _dataAccess = new UrlDetailsSQLDataAccess();
             _hahGenerator = new BijectiveHashGenerator();
         }
 
@@ -24,14 +24,15 @@ namespace UrlShortener.Controllers
         //http://urlshortener-env.us-west-2.elasticbeanstalk.com/api/Url/CreateShortUrl/
         [System.Web.Http.AcceptVerbs("POST")]
         [System.Web.Http.HttpPost]
-        public IHttpActionResult CreateShortUrl(CreateRequest url)
+        public IHttpActionResult CreateShortUrl(CreateRequest request)
         {
-            var inputUrl = url.Url;
-            if (string.IsNullOrWhiteSpace(inputUrl))
+
+            if (request == null || string.IsNullOrWhiteSpace(request.Url))
             {
                 return BadRequest("URL cannot be empty");
             }
 
+            var inputUrl = request.Url;
             var itemId = _dataAccess.Create(inputUrl.Trim());
             var hash = _hahGenerator.ConvertIdToHash(itemId);
             var tinyUrl = string.Format(_baseAddress, hash);

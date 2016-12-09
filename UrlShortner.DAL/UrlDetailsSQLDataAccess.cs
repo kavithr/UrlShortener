@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace UrlShortner.DAL
 {
-    public class SQLServerDataAccessLayer : IDataAccessLayer
+    public class UrlDetailsSQLDataAccess : IDataAccessLayer
     {
         UrlDetailsEntities db;
-        public SQLServerDataAccessLayer()
+        public UrlDetailsSQLDataAccess()
         {
             db = new UrlDetailsEntities();
         }
