@@ -61,7 +61,7 @@ namespace UrlShortener.Controllers
         {
             if (string.IsNullOrWhiteSpace(urlHash))
             {
-                throw new InvalidOperationException("Bad request");
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
 
             var longUrl = GetRedirectUrl(urlHash.Trim());
