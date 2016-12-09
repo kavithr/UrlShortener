@@ -18,10 +18,10 @@ namespace UrlShortener
             config.Routes.MapHttpRoute(
               name: "DefaultApi",
               routeTemplate: "api/Url/{urlHash}", defaults: new
-    {
-        controller = "Url",
-        id = RouteParameter.Optional
-    }
+              {
+                  controller = "Url",
+                  id = RouteParameter.Optional
+              }
           );
 
             config.Routes.MapHttpRoute(

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -13,7 +11,7 @@ namespace UrlShortener.Controllers
     public class UrlController : ApiController
     {
         private readonly IDataAccessLayer _dataAccess;
-        private const string _tinyUrlPrefix = "http://mytinyurl/";
+        private const string _baseAddress = "http://urlshortener-env.us-west-2.elasticbeanstalk.com/api/Url/{0}";
         IHashGenerator _hahGenerator;
 
         public UrlController()
@@ -23,37 +21,39 @@ namespace UrlShortener.Controllers
         }
 
 
-        //http://urlshortener-env.us-west-2.elasticbeanstalk.com/api/Url/CreateShortUrl/wfhkjewhnbcb21321321adsadsadeee
-        [System.Web.Http.AcceptVerbs("GET")]
-        [System.Web.Http.HttpGet]
-        public IHttpActionResult CreateShortUrl(string url)
+        //http://urlshortener-env.us-west-2.elasticbeanstalk.com/api/Url/CreateShortUrl/
+        [System.Web.Http.AcceptVerbs("POST")]
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult CreateShortUrl(CreateRequest url)
         {
-            if (string.IsNullOrWhiteSpace(url))
+            var inputUrl = url.Url;
+            if (string.IsNullOrWhiteSpace(inputUrl))
             {
                 return BadRequest("URL cannot be empty");
             }
 
-            var itemId = _dataAccess.Create(url.Trim());
+            var itemId = _dataAccess.Create(inputUrl.Trim());
             var hash = _hahGenerator.ConvertIdToHash(itemId);
-            var tinyUrl = _tinyUrlPrefix + hash;
+            var tinyUrl = string.Format(_baseAddress, hash);
             return Ok(tinyUrl);
         }
 
-        ////[System.Web.Http.AcceptVerbs("GET")]
-        ////[System.Web.Http.HttpGet]
-        ////public IHttpActionResult GetUrl(string urlHash)
-        ////{
-        ////    if (string.IsNullOrWhiteSpace(urlHash))
-        ////    {
-        ////        return BadRequest("URL cannot be empty");
-        ////    }
-
-        ////    var actualUrl = GetRedirectUrl(urlHash.Trim());
-        ////    return Ok(actualUrl);
-        ////}
-
         [System.Web.Http.AcceptVerbs("GET")]
         [System.Web.Http.HttpGet]
+        [Route("api/url/GetShortUrl/{shortUrlHash}")]
+        public IHttpActionResult GetShortUrl(string shortUrlHash)
+        {
+            if (string.IsNullOrWhiteSpace(shortUrlHash))
+            {
+                return BadRequest("URL cannot be empty");
+            }
+
+            var actualUrl = GetRedirectUrl(shortUrlHash.Trim());
+            return Ok(actualUrl);
+        }
+
+        [System.Web.Http.AcceptVerbs("GET")]
+        [System.Web.Http.HttpGet]       
         public HttpResponseMessage Get(string urlHash)
         {
             if (string.IsNullOrWhiteSpace(urlHash))
