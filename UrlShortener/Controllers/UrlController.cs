@@ -38,16 +38,16 @@ namespace UrlShortener.Controllers
 
         [System.Web.Http.AcceptVerbs("GET")]
         [System.Web.Http.HttpGet]
-        [Route("api/url/GetShortUrl/{shortUrlHash}")]
-        public IHttpActionResult GetShortUrl(string shortUrlHash)
+        [Route("api/url/GetLongUrl/{shortUrlHash}")]
+        public IHttpActionResult GetLongtUrl(string shortUrlHash)
         {
             if (string.IsNullOrWhiteSpace(shortUrlHash))
             {
                 return BadRequest("URL cannot be empty");
             }
 
-            var actualUrl = GetRedirectUrl(shortUrlHash.Trim());
-            return Ok(actualUrl);
+            var longUrl = GetRedirectUrl(shortUrlHash.Trim());
+            return Ok(longUrl);
         }
 
         [System.Web.Http.AcceptVerbs("GET")]

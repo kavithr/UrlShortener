@@ -5,7 +5,7 @@ using UrlShortener.Controllers;
 using UrlShortener.Convertors;
 using System.Web.Http.Results;
 
-namespace UrlShortener.Tests
+namespace UrlShortener.UnitTests
 {
     [TestClass]
     public class UrlControllerTests
@@ -31,6 +31,26 @@ namespace UrlShortener.Tests
                 Assert.IsNotNull(actual);
                 Assert.AreEqual(expectedUrl, actual.Content);
             }  
+        }
+
+        [TestMethod]
+        public void CreateShortUrl_NullInputUrl_ReturnsBadRequest()
+        {
+            using (var mock = AutoMock.GetLoose())
+            {
+                // Arrange
+                var expectedOutput = "URL cannot be empty";
+                mock.Mock<IDataAccessLayer>().Setup(x => x.Create(null)).Returns(null);
+                mock.Mock<IHashGenerator>().Setup(x => x.ConvertIdToHash(0)).Returns(expectedOutput);
+                var controller = mock.Create<UrlController>();
+
+                // Act
+                var actual = controller.CreateShortUrl(new CreateRequest { Url = null }) as OkNegotiatedContentResult<string>;
+
+                // Assert
+                Assert.IsNotNull(actual);
+                Assert.AreEqual(expectedOutput, actual.Content);
+            }
         }
     }
 
