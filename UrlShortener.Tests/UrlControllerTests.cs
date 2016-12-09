@@ -15,17 +15,18 @@ namespace UrlShortener.UnitTests
         [TestMethod]
         public void CreateShortUrl_ValidInputUrl_ReturnsUrl()
         {   
-            using (var mock = AutoMock.GetLoose())
+            using (var autoMock = AutoMock.GetLoose())
             {
                 // Arrange
                 const string ExpectedHash = "abs";
+                const string longUrl = "TestUrl";
                 var expectedUrl = string.Format(_baseAddress, ExpectedHash);
-                mock.Mock<IDataAccessLayer>().Setup(x => x.Create("TestUrl")).Returns(100);
-                mock.Mock<IHashGenerator>().Setup(x => x.ConvertIdToHash(100)).Returns(ExpectedHash);
-                var controller = mock.Create<UrlController>();
+                autoMock.Mock<IDataAccessLayer>().Setup(x => x.Create(longUrl)).Returns(100);
+                autoMock.Mock<IHashGenerator>().Setup(x => x.ConvertIdToHash(100)).Returns(ExpectedHash);
+                var controller = autoMock.Create<UrlController>();
 
                 // Act
-                var actual = controller.CreateShortUrl(new CreateRequest { Url = "TestUrl" }) as OkNegotiatedContentResult<string>;
+                var actual = controller.CreateShortUrl(new CreateRequest { Url = longUrl }) as OkNegotiatedContentResult<string>;
 
                 // Assert
                 Assert.IsNotNull(actual);
@@ -39,17 +40,33 @@ namespace UrlShortener.UnitTests
             using (var mock = AutoMock.GetLoose())
             {
                 // Arrange
-                var expectedOutput = "URL cannot be empty";
-                mock.Mock<IDataAccessLayer>().Setup(x => x.Create(null)).Returns(null);
-                mock.Mock<IHashGenerator>().Setup(x => x.ConvertIdToHash(0)).Returns(expectedOutput);
+                var expectedError = "Invalid create request";               
                 var controller = mock.Create<UrlController>();
 
                 // Act
-                var actual = controller.CreateShortUrl(new CreateRequest { Url = null }) as OkNegotiatedContentResult<string>;
+                var actual = controller.CreateShortUrl(new CreateRequest { Url = null }) as BadRequestErrorMessageResult;
 
                 // Assert
                 Assert.IsNotNull(actual);
-                Assert.AreEqual(expectedOutput, actual.Content);
+                Assert.AreEqual(expectedError, actual.Message);
+            }
+        }
+
+        [TestMethod]
+        public void CreateShortUrl_NullRequest_ReturnsBadRequest()
+        {
+            using (var mock = AutoMock.GetLoose())
+            {
+                // Arrange
+                var expectedError = "Invalid create request";
+                var controller = mock.Create<UrlController>();
+
+                // Act
+                var actual = controller.CreateShortUrl(null) as BadRequestErrorMessageResult;
+
+                // Assert
+                Assert.IsNotNull(actual);
+                Assert.AreEqual(expectedError, actual.Message);
             }
         }
     }

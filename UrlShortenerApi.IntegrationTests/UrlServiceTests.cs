@@ -48,8 +48,10 @@ namespace UrlShortenerApi.EndToEndTests
                 Assert.IsTrue(response.IsSuccessStatusCode);
                 var tinyUrl = JsonConvert.DeserializeObject<string>(response.Content.ReadAsStringAsync().Result);
 
+                const string TinyUrlApiSuffix = "api/Url";
+
                 Assert.IsNotNull(tinyUrl);
-                Assert.IsTrue(tinyUrl.Contains("api/Url"));
+                Assert.IsTrue(tinyUrl.Contains(TinyUrlApiSuffix));
 
                 var urlParts = tinyUrl.Split('/');
                 var urlHash = urlParts[urlParts.Length - 1];

@@ -26,7 +26,7 @@ namespace UrlShortener.Controllers
         {
             if (request == null || string.IsNullOrWhiteSpace(request.Url))
             {
-                return BadRequest("URL cannot be empty");
+                return BadRequest("Invalid create request");
             }
 
             var inputUrl = request.Url;
