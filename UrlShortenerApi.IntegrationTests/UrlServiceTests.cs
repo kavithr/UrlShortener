@@ -1,11 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
-using System.Threading;
-using System.IO;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.Http;
-using Newtonsoft.Json;
 using UrlShortenerApi.IntegrationTests;
 
 namespace UrlShortenerApi.EndToEndTests
