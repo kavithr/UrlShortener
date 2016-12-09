@@ -14,10 +14,10 @@ namespace UrlShortener.Controllers
         private const string _baseAddress = "http://urlshortener-env.us-west-2.elasticbeanstalk.com/api/Url/{0}";
         IHashGenerator _hahGenerator;
 
-        public UrlController(IDataAccessLayer dataAccessLayer)
+        public UrlController(IDataAccessLayer dataAccessLayer, IHashGenerator hahGenerator)
         {
             _dataAccess = dataAccessLayer;
-            _hahGenerator = new BijectiveHashGenerator();
+            _hahGenerator = hahGenerator;
         }
         
         [System.Web.Http.AcceptVerbs("POST")]

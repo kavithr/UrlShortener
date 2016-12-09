@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Web.Http;
+using UrlShortener.Convertors;
 using UrlShortner.DAL;
 
 namespace UrlShortener
@@ -28,6 +29,7 @@ namespace UrlShortener
 
             // Set the dependency resolver to be Autofac.
             builder.RegisterType<UrlDetailsSQLDataAccess>().As<IDataAccessLayer>();
+            builder.RegisterType<BijectiveHashGenerator>().As<IHashGenerator>();
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
