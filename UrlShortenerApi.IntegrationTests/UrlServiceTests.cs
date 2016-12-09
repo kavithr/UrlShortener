@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Net.Http;
 using Newtonsoft.Json;
+using UrlShortenerApi.IntegrationTests;
 
 namespace UrlShortenerApi.EndToEndTests
 {
@@ -41,12 +42,10 @@ namespace UrlShortenerApi.EndToEndTests
                     Url = LongTestUrl,
                 };
 
-                var response = client.PostAsync(CreateShortUrlEndPoint, new StringContent(JsonConvert.SerializeObject(request).ToString(),
-                        Encoding.UTF8, "application/json"))
-                        .Result;
+                var response = HttpClientUtil.PostJson(client, request, CreateShortUrlEndPoint);
 
                 Assert.IsTrue(response.IsSuccessStatusCode);
-                var tinyUrl = JsonConvert.DeserializeObject<string>(response.Content.ReadAsStringAsync().Result);
+                var tinyUrl = HttpClientUtil.GetResponseResult(response);
 
                 const string TinyUrlApiSuffix = "api/Url";
 
@@ -59,7 +58,7 @@ namespace UrlShortenerApi.EndToEndTests
                 response = client.GetAsync(string.Format(GetLongUrlEndpoint, urlHash)).Result;                
                 Assert.IsTrue(response.IsSuccessStatusCode);
                 Assert.IsNotNull(response);
-                var longUrl = JsonConvert.DeserializeObject<string>(response.Content.ReadAsStringAsync().Result);
+                var longUrl = HttpClientUtil.GetResponseResult(response);
                 Assert.AreEqual(request.Url, longUrl);
             }
         }
@@ -69,7 +68,7 @@ namespace UrlShortenerApi.EndToEndTests
         public void CreateShortUrl_DuplicateLongUrl_ShouldReturnExistingShortUrl()
         {
             const string LongTestUrl = "https://msdn.microsoft.com/en-us/library/system.net.http.httpclientextensions.postasjsonasync.aspx";
-            const string ExpectedTinyUrl = "http://urlshortener-env.us-west-2.elasticbeanstalk.com/api/Url/p";
+            const string ExpectedTinyUrl = BaseUrl + "p";
 
             using (var client = new HttpClient())
             {
@@ -78,13 +77,11 @@ namespace UrlShortenerApi.EndToEndTests
                     Url = LongTestUrl,
                 };
 
-                var response = client.PostAsync(CreateShortUrlEndPoint, new StringContent(JsonConvert.SerializeObject(request).ToString(),
-                        Encoding.UTF8, "application/json"))
-                        .Result;
+                var response = HttpClientUtil.PostJson(client, request, CreateShortUrlEndPoint);
 
                 Assert.IsNotNull(response);
                 Assert.IsTrue(response.IsSuccessStatusCode);
-                var tinyUrl = JsonConvert.DeserializeObject<string>(response.Content.ReadAsStringAsync().Result);
+                var tinyUrl = HttpClientUtil.GetResponseResult(response);
                 Assert.AreEqual(ExpectedTinyUrl, tinyUrl);
             }
         }
