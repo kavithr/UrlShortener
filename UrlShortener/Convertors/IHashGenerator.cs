@@ -1,4 +1,4 @@
-﻿namespace UrlShortener.Repository
+﻿namespace UrlShortener.Convertors
 {
     public interface IHashGenerator
     {

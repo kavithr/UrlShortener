@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UrlShortner.DAL
 {
@@ -14,32 +11,31 @@ namespace UrlShortner.DAL
             db = new UrlDetailsEntities();
         }
 
-        public int Create(string url)
+        public int Create(string longUrl)
         {
-            var urlId = FindUrlByValue(url);
-            if(urlId > 0)
+            var urlId = FindUrlByValue(longUrl);
+            if (urlId > -1)
             {
                 return urlId;
             }
-                     
-            var item = new UrlDetail
+
+            var newUrlItem = new UrlDetail
             {
-                Url = url
+                Url = longUrl
             };
 
-            db.UrlDetails.Add(item);
+            db.UrlDetails.Add(newUrlItem);
             var result = db.SaveChanges();
-
-            return item.ID;
+            return newUrlItem.ID;
         }
 
-        public int FindUrlByValue(string url)
+        public int FindUrlByValue(string longUrl)
         {
-            return db.UrlDetails.FirstOrDefault(item => item.Url.Equals(url, StringComparison.OrdinalIgnoreCase))?.ID ?? 0;
+            return db.UrlDetails.FirstOrDefault(item => item.Url.Equals(longUrl, StringComparison.OrdinalIgnoreCase))?.ID ?? -1;
         }
 
         public string GetUrl(int id)
-        {           
+        {
             return db.UrlDetails.FirstOrDefault(item => item.ID.Equals(id))?.Url;
         }
     }

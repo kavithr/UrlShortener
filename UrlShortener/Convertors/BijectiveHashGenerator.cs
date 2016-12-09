@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 
 
-namespace UrlShortener.Repository
+namespace UrlShortener.Convertors
 {
     public class BijectiveHashGenerator : IHashGenerator
     {

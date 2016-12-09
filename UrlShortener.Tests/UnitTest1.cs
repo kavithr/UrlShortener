@@ -9,7 +9,7 @@ namespace UrlShortener.Tests
         [TestMethod]
         public void ConvertIdToHashShouldReturnEqualantLetterForInput1()
         {
-            var generator = new UrlShortener.Repository.BijectiveHashGenerator();
+            var generator = new UrlShortener.Convertors.BijectiveHashGenerator();
             var actual = generator.ConvertIdToHash(10000);
             Assert.AreEqual("b", actual);          
         }

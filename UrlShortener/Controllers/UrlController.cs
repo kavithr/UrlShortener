@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using UrlShortener.Repository;
+using UrlShortener.Convertors;
 using UrlShortner.DAL;
 
 
@@ -19,9 +19,7 @@ namespace UrlShortener.Controllers
             _dataAccess = new UrlDetailsSQLDataAccess();
             _hahGenerator = new BijectiveHashGenerator();
         }
-
-
-        //http://urlshortener-env.us-west-2.elasticbeanstalk.com/api/Url/CreateShortUrl/
+        
         [System.Web.Http.AcceptVerbs("POST")]
         [System.Web.Http.HttpPost]
         public IHttpActionResult CreateShortUrl(CreateRequest request)
@@ -54,7 +52,7 @@ namespace UrlShortener.Controllers
         }
 
         [System.Web.Http.AcceptVerbs("GET")]
-        [System.Web.Http.HttpGet]       
+        [System.Web.Http.HttpGet]            
         public HttpResponseMessage Get(string urlHash)
         {
             if (string.IsNullOrWhiteSpace(urlHash))
