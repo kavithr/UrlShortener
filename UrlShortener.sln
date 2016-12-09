@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortner.DAL", "UrlShort
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortener.Tests", "UrlShortener.Tests\UrlShortener.Tests.csproj", "{7E3414C0-40E2-4FBF-9FFA-7219CCD0DBBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortenerApi.IntegrationTests", "UrlShortenerApi.IntegrationTests\UrlShortenerApi.IntegrationTests.csproj", "{FE3FA52F-9D26-449D-8870-DF130D504D2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortenerApi.EndToEndTests", "UrlShortenerApi.IntegrationTests\UrlShortenerApi.EndToEndTests.csproj", "{FE3FA52F-9D26-449D-8870-DF130D504D2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

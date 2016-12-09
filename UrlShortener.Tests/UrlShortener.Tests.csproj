@@ -50,8 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="BijectiveHashGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UrlShortener\UrlShortener.csproj">
