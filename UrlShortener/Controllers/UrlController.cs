@@ -14,9 +14,9 @@ namespace UrlShortener.Controllers
         private const string _baseAddress = "http://urlshortener-env.us-west-2.elasticbeanstalk.com/api/Url/{0}";
         IHashGenerator _hahGenerator;
 
-        public UrlController()
+        public UrlController(IDataAccessLayer dataAccessLayer)
         {
-            _dataAccess = new UrlDetailsSQLDataAccess();
+            _dataAccess = dataAccessLayer;
             _hahGenerator = new BijectiveHashGenerator();
         }
         
@@ -24,7 +24,6 @@ namespace UrlShortener.Controllers
         [System.Web.Http.HttpPost]
         public IHttpActionResult CreateShortUrl(CreateRequest request)
         {
-
             if (request == null || string.IsNullOrWhiteSpace(request.Url))
             {
                 return BadRequest("URL cannot be empty");
